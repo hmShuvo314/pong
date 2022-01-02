@@ -58,7 +58,3 @@ const hasACollision = (paddleRect, ballRect) =>
   paddleRect.bottom >= ballRect.top &&
   paddleRect.left < ballRect.right &&
   paddleRect.right > ballRect.left;
-// paddleRect.left <= ballRect.right &&
-// paddleRect.right >= ballRect.left &&
-// paddleRect.top <= ballRect.bottom &&
-// paddleRect.bottom >= ballRect.top;
