@@ -20,7 +20,7 @@ let playerPoint = 0;
 
 let lastTime;
 const update = (time) => {
-  if (computerPoint >= 1) {
+  if (computerPoint >= 5) {
     handleGameOver();
     return;
   }
