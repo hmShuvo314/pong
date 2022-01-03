@@ -1,4 +1,4 @@
-const MAX_SPEED = 0.02;
+const MAX_SPEED = 0.011;
 
 export default class Paddle {
   constructor(element) {

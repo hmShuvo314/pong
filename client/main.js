@@ -15,17 +15,31 @@ const ball = new Ball(ballInstance);
 const playerPaddle = new Paddle(playerPaddleInstance);
 const computerPaddle = new Paddle(computerPaddleInstance);
 
+const audio = document.createElement("audio");
+audio.volume = 0.5;
 let computerPoint = 0;
 let playerPoint = 0;
 
 let lastTime;
+
+document.documentElement.style.setProperty("--hue", Math.random() * 360);
 const update = (time) => {
   if (computerPoint >= 5) {
-    handleGameOver();
+    handleGameOver("Oops! You lost :(");
+    return;
+  } else if (playerPoint >= 5) {
+    handleGameOver("Horray! You won :)");
     return;
   }
   if (lastTime) {
     const delta = time - lastTime;
+    const hue = getComputedStyle(document.documentElement).getPropertyValue(
+      "--hue"
+    );
+    document.documentElement.style.setProperty(
+      "--hue",
+      (parseFloat(hue) + 0.01 * delta) % 360
+    );
 
     ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
     computerPaddle.update(delta, ball.x);
@@ -36,15 +50,16 @@ const update = (time) => {
   window.requestAnimationFrame(update);
 };
 
-const handleGameOver = () => {
+const handleGameOver = (message) => {
   playerPoint = 0;
   computerPoint = 0;
-
+  lastTime = null;
+  playerScore.textContent = 0;
+  computerScore.textContent = 0;
   startModal.classList.remove("close");
-  startModal.querySelector("h1").textContent = "Oops! You lost :(";
+  startModal.querySelector("h1").textContent = message;
   startButton.textContent = "Replay";
   document.body.style.setProperty("cursor", "default");
-  // startButton.addEventListener("click", startGame);
 };
 
 const hasLost = () =>
@@ -52,30 +67,35 @@ const hasLost = () =>
 
 const handleLost = () => {
   const rect = ball.rect();
-  if (rect.top <= 0) {
-    scores.classList.add("won");
-    removeClass("won");
-    playerScore.textContent = ++playerPoint;
-  } else {
+  if (rect.bottom >= window.innerHeight) {
+    audio.src = "./sounds/boom.wav";
+    audio.play();
     scores.classList.add("lost");
     removeClass("lost");
     computerScore.textContent = ++computerPoint;
+  } else {
+    audio.src = "./sounds/ride.wav";
+    audio.play();
+    scores.classList.add("won");
+    removeClass("won");
+    playerScore.textContent = ++playerPoint;
   }
 
   ball.reset();
+  computerPaddle.reset();
 };
 
 const removeClass = (classToRemove) => {
   setTimeout(() => {
     scores.classList.remove(classToRemove);
-  }, 400);
+  }, 800);
 };
 const startGame = () => {
-  playerScore.textContent = 0;
-  computerScore.textContent = 0;
+  audio.src = "./sounds/openhat.wav";
+  audio.play();
   startModal.classList.add("close");
-  window.requestAnimationFrame(update);
   document.body.style.setProperty("cursor", "none");
+  window.requestAnimationFrame(update);
 };
 
 startButton.addEventListener("click", startGame);

@@ -1,5 +1,8 @@
-const INITIAL_VELOCITY = 0.04;
-const ACCELERATION = 0.000003;
+const INITIAL_VELOCITY = 0.06;
+const ACCELERATION = 0.000008;
+
+const audio = document.createElement("audio");
+audio.volume = 0.5;
 
 export default class Ball {
   constructor(element) {
@@ -38,16 +41,20 @@ export default class Ball {
   }
 
   update(delta, paddleRects) {
-    this.x += this.direction.x * this.velocity * delta;
-    this.y += this.direction.y * this.velocity * delta;
-    this.velocity += ACCELERATION * delta;
     const rect = this.rect();
-    if (rect.right >= window.innerWidth || rect.left <= 0) {
-      this.direction.x *= -1;
-    }
-
     if (paddleRects.some((r) => hasACollision(r, rect))) {
+      audio.src = "./sounds/tink.wav";
+      audio.play();
+
       this.direction.y *= -1;
+      this.y += this.direction.y * this.velocity * delta;
+    } else if (rect.right >= window.innerWidth || rect.left <= 0) {
+      this.direction.x *= -1;
+      this.x += this.direction.x * this.velocity * delta;
+    } else {
+      this.velocity += ACCELERATION * delta;
+      this.x += this.direction.x * this.velocity * delta;
+      this.y += this.direction.y * this.velocity * delta;
     }
   }
 }

@@ -1,6 +1,7 @@
 {
   "name": "pong",
   "version": "0.0.0",
+  "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -8,5 +9,9 @@
   },
   "devDependencies": {
     "vite": "^2.7.2"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.4.0",
+    "uuid": "^8.3.2"
   }
 }

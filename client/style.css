@@ -10,7 +10,7 @@
   --hue: 200;
   --saturation: 50%;
   --foreground-color: hsl(var(--hue), var(--saturation), 70%);
-  --background-color: hsl(var(--hue), var(--saturation), 20%);
+  --background-color: hsl(var(--hue), var(--saturation), 22%);
 }
 body {
   background: var(--background-color);
@@ -28,18 +28,21 @@ body {
   --position: 50;
   position: absolute;
   background-color: var(--foreground-color);
-  height: 1vh;
-  width: 10vw;
+  height: 1.5vh;
+  border-radius: 10px;
+  width: 12.5vw;
   left: calc(var(--position) * 1vw);
   transform: translateX(-50%);
 }
 
 .paddle.top {
-  top: 1vh;
+  top: 1.5vh;
+  box-shadow: 0 -3px 5px 1px rgba(255, 255, 255, 0.2);
 }
 
 .paddle.bottom {
-  bottom: 1vh;
+  box-shadow: 0 3px 5px 1px rgba(255, 255, 255, 0.2);
+  bottom: 1.5vh;
 }
 
 .ball {
@@ -47,37 +50,36 @@ body {
   --y: 50;
   position: absolute;
   background-color: var(--foreground-color);
-  width: 3vh;
-  height: 3vh;
+  width: 3.5vmin;
+  height: 3.5vmin;
   border-radius: 50%;
   top: calc(var(--y) * 1vh);
   left: calc(var(--x) * 1vw);
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2);
 }
 
 .score-wrapper {
   position: relative;
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
   height: 40vmin;
   width: 40vmin;
   border-radius: 50%;
   display: flex;
   place-content: center;
   place-items: center;
-  /* gap: 20%; */
   color: var(--foreground-color);
   font-weight: bold;
   font-size: 8vh;
 }
 
 .score-wrapper.won {
-  box-shadow: 0 0 20px 4px green;
-  animation: animate 350ms linear 1;
+  box-shadow: 0 0 20px 5px hsl(120, 100%, 65%);
+  animation: animate 200ms linear infinite;
 }
 .score-wrapper.lost {
-  box-shadow: 0 0 20px 4px red;
-  animation: animate 350ms linear 1;
+  box-shadow: 0 0 20px 5px hsl(0, 100%, 65%);
+  animation: animate 200ms linear infinite;
 }
 
 @keyframes animate {
@@ -100,10 +102,12 @@ body {
   flex-basis: 0;
   padding: 0 4vh;
   opacity: 0.6;
+  color: hsl(0.5, 100%, 75%);
 }
 .score-wrapper > :first-child {
+  color: hsl(120, 100%, 75%);
   text-align: right;
-  border-right: 3px solid var(--foreground-color);
+  border-right: 3.5px solid var(--foreground-color);
 }
 
 .start-modal {
@@ -111,14 +115,15 @@ body {
   left: 50vw;
   top: 50vh;
   transform: translate(-50%, -50%);
-  width: 50vw;
-  height: 50vh;
-  background-color: rgba(0, 0, 0, 0.3);
+  width: 40vmax;
+  height: 22vmax;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   display: grid;
   place-items: center;
   place-content: center;
-  gap: 30px;
+  gap: 7vh;
   color: aliceblue;
   z-index: 99;
 }
@@ -130,9 +135,13 @@ body {
 button {
   outline: none;
   border: none;
-  background-color: royalblue;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+  color: whitesmoke;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.05);
   width: 6vw;
   height: 6vh;
   border-radius: 6px;
-  font-size: 3vmin;
+  font-size: 2.5vmin;
+  cursor: pointer;
 }
