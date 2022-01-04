@@ -1,8 +1,7 @@
+import tink from "./sounds/tink.wav";
+
 const INITIAL_VELOCITY = 0.06;
 const ACCELERATION = 0.000008;
-
-const audio = document.createElement("audio");
-audio.volume = 0.5;
 
 export default class Ball {
   constructor(element) {
@@ -32,7 +31,7 @@ export default class Ball {
     this.direction = { x: 0 };
     while (
       Math.abs(this.direction.x) <= 0.3 ||
-      Math.abs(this.direction.x) >= 0.8
+      Math.abs(this.direction.x) >= 0.7
     ) {
       const heading = randomNumberBetween(0, 2 * Math.PI);
       this.direction = { x: Math.cos(heading), y: Math.sin(heading) };
@@ -43,7 +42,10 @@ export default class Ball {
   update(delta, paddleRects) {
     const rect = this.rect();
     if (paddleRects.some((r) => hasACollision(r, rect))) {
-      audio.src = "./sounds/tink.wav";
+      const audio = document.createElement("audio");
+      audio.volume = 0.5;
+      audio.src = tink;
+      audio.load();
       audio.play();
 
       this.direction.y *= -1;

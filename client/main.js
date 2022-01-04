@@ -1,6 +1,9 @@
 import Ball from "./ball";
 import Paddle from "./Paddle";
 import "./style.css";
+import boom from "./sounds/boom.wav";
+import ride from "./sounds/ride.wav";
+import openhat from "./sounds/openhat.wav";
 
 const ballInstance = document.querySelector("#ball");
 const playerPaddleInstance = document.querySelector("#player-paddle");
@@ -15,8 +18,6 @@ const ball = new Ball(ballInstance);
 const playerPaddle = new Paddle(playerPaddleInstance);
 const computerPaddle = new Paddle(computerPaddleInstance);
 
-const audio = document.createElement("audio");
-audio.volume = 0.5;
 let computerPoint = 0;
 let playerPoint = 0;
 
@@ -31,6 +32,7 @@ const update = (time) => {
     handleGameOver("Horray! You won :)");
     return;
   }
+
   if (lastTime) {
     const delta = time - lastTime;
     const hue = getComputedStyle(document.documentElement).getPropertyValue(
@@ -68,13 +70,19 @@ const hasLost = () =>
 const handleLost = () => {
   const rect = ball.rect();
   if (rect.bottom >= window.innerHeight) {
-    audio.src = "./sounds/boom.wav";
+    const audio = document.createElement("audio");
+    audio.src = boom;
+    audio.load();
+    audio.volume = 0.5;
     audio.play();
     scores.classList.add("lost");
     removeClass("lost");
     computerScore.textContent = ++computerPoint;
   } else {
-    audio.src = "./sounds/ride.wav";
+    const audio = document.createElement("audio");
+    audio.src = ride;
+    audio.load();
+    audio.volume = 0.5;
     audio.play();
     scores.classList.add("won");
     removeClass("won");
@@ -90,8 +98,12 @@ const removeClass = (classToRemove) => {
     scores.classList.remove(classToRemove);
   }, 800);
 };
+
 const startGame = () => {
-  audio.src = "./sounds/openhat.wav";
+  const audio = document.createElement("audio");
+  audio.src = openhat;
+  audio.load();
+  audio.volume = 0.5;
   audio.play();
   startModal.classList.add("close");
   document.body.style.setProperty("cursor", "none");
